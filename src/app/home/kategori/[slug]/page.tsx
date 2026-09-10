@@ -38,21 +38,20 @@ export default async function KategoriPage({ params }: { params: { slug: string 
 
   return (
     <PageTransition>
-    <div className="w-full min-h-screen overflow-y-auto" style={{backgroundColor: bgColor}}>
-      {/* Rounded background + hero */}
-      <div className="relative h-[48svh] shrink-0 rounded-b-[40px] overflow-hidden" style={{boxShadow: '0 12px 32px rgba(0,0,0,0.45), 0 4px 12px rgba(0,0,0,0.3)'}}>
-        <section className="absolute inset-0 w-full h-full overflow-hidden bg-stone-900">
-          {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}
-          {(heroTitle || heroSubtitle) && <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />}
-          <div className="relative z-10 h-full max-w-6xl mx-auto px-4 pb-6 flex flex-col justify-end text-white">
-            {heroTitle && <h1 className="font-serif text-2xl sm:text-4xl font-semibold leading-tight">{heroTitle}</h1>}
-            {heroSubtitle && <p className="text-xs sm:text-sm text-white/80 italic mt-1">{heroSubtitle}</p>}
-          </div>
-        </section>
-      </div>
+    <div className="w-full min-h-screen overflow-y-auto relative">
+      {/* Hero image - top 50% */}
+      <section className="absolute top-0 left-0 right-0 h-[50svh] overflow-hidden bg-stone-900">
+        {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}
+      </section>
 
-      {/* Content overlapping the rounded background */}
-      <div className="w-full relative z-10 -mt-4">
+      {/* Background cream - starts at 45%, rounded top */}
+      <div className="min-h-[55svh] mt-[45svh] relative z-10 rounded-t-[30px] overflow-hidden" style={{backgroundColor: bgColor, boxShadow: '0 -8px 32px rgba(0,0,0,0.15)'}}>
+        {(heroTitle || heroSubtitle) && (
+          <div className="max-w-6xl mx-auto px-4 pt-4 pb-2 w-full text-[#1E3124]">
+            {heroTitle && <h1 className="font-serif text-2xl sm:text-4xl font-semibold leading-tight">{heroTitle}</h1>}
+            {heroSubtitle && <p className="text-xs sm:text-sm text-[#1E3124]/70 italic mt-1">{heroSubtitle}</p>}
+          </div>
+        )}
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 space-y-3">
           {itemsWithPhotos.length===0 ? (
             <div className="rounded-2xl border border-[#EEE8D8] bg-white p-6 text-center text-[#9A8B7A] text-sm">Belum ada {kategori.toLowerCase()}</div>

@@ -16,21 +16,21 @@ export default async function PromoPage() {
 
   return (
     <PageTransition>
-    <div className="flex flex-col h-[100svh] w-full overflow-hidden">
-      {/* Rounded background + hero */}
-      <div className="relative h-[48svh] shrink-0 rounded-b-[40px] overflow-hidden" style={{backgroundColor: bgColor, boxShadow: '0 12px 32px rgba(0,0,0,0.45), 0 4px 12px rgba(0,0,0,0.3)'}}>
-        <section className="absolute inset-0 w-full h-full overflow-hidden bg-stone-900">
-          {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}
-          {(heroTitle || heroSubtitle) && <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />}
-          <div className="relative z-10 h-full max-w-6xl mx-auto px-4 pb-6 flex flex-col justify-end text-white">
-            {heroTitle && <h1 className="font-serif text-2xl sm:text-4xl font-semibold leading-tight">{heroTitle}</h1>}
-            {heroSubtitle && <p className="text-xs sm:text-sm text-white/80 italic mt-1">{heroSubtitle}</p>}
-          </div>
-        </section>
-      </div>
+    <div className="flex flex-col h-[100svh] w-full overflow-hidden relative">
+      {/* Hero image - top 40% */}
+      <section className="absolute top-0 left-0 right-0 h-[50svh] overflow-hidden bg-stone-900">
+        {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}
+      </section>
 
-      {/* Content overlapping the rounded background */}
-      <div className="flex-1 flex flex-col overflow-hidden min-h-0 -mt-4 relative z-10">
+      {/* Background cream - starts at 45%, rounded top */}
+      <div className="flex-1 flex flex-col mt-[45svh] relative z-10 rounded-t-[30px] overflow-hidden" style={{backgroundColor: bgColor, boxShadow: '0 -8px 32px rgba(0,0,0,0.15)'}}>
+        {/* Hero text inside cream */}
+        {(heroTitle || heroSubtitle) && (
+          <div className="max-w-6xl mx-auto px-4 pt-4 pb-2 w-full text-[#1E3124]">
+            {heroTitle && <h1 className="font-serif text-2xl sm:text-4xl font-semibold leading-tight">{heroTitle}</h1>}
+            {heroSubtitle && <p className="text-xs sm:text-sm text-[#1E3124]/70 italic mt-1">{heroSubtitle}</p>}
+          </div>
+        )}
         <PromoHome40 banners={banners} galleryTransition={settings['promo_landing.gallery_transition']||'acak'} galleryInterval={settings['promo_landing.gallery_interval']||'3000'} bgColor={bgColor} />
       </div>
     </div>
