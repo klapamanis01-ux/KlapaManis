@@ -52,7 +52,7 @@ export default async function KategoriPage({ params }: { params: { slug: string 
             {heroSubtitle && <p className="text-xs sm:text-sm text-[#1E3124]/70 italic mt-1">{heroSubtitle}</p>}
           </div>
         )}
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 space-y-3">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 space-y-3">
           {itemsWithPhotos.length===0 ? (
             <div className="rounded-2xl border border-[#EEE8D8] bg-white p-6 text-center text-[#9A8B7A] text-sm">Belum ada {kategori.toLowerCase()}</div>
           ) : (

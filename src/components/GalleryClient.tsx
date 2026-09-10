@@ -14,7 +14,7 @@ export default function GalleryClient({ items, cardBg, cardShadow, isWhiteCard, 
         {items.map(it=>(
           <div key={it.id} onClick={()=>setDetail({title:it.title||'', image:it.imageUrl, desc:it.deskripsi})} className="relative rounded-2xl overflow-hidden bg-stone-900 cursor-pointer aspect-[3/4]" style={{boxShadow: '0 14px 36px rgba(0,0,0,0.45), 0 6px 14px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.12)'}}>
             <img src={it.imageUrl} alt={it.title||''} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             {it.title && (
               <div className="absolute bottom-0 left-0 right-0 p-3">
                 <div className="inline-block backdrop-blur-md rounded-xl px-2 py-1.5 border" style={{backgroundColor: cardBg, borderColor: isWhiteCard ? 'rgba(232,224,200,0.8)' : 'rgba(255,255,255,0.2)'}}>

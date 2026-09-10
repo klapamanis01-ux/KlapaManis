@@ -50,8 +50,8 @@ export default function PromoHome40({ banners, galleryTransition='acak', gallery
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
       {/* Gallery slider — flex-1 ambil sisa ruang */}
-      <div className="flex-1 flex flex-col min-h-0 px-3 sm:px-4 pt-3 pb-2">
-        <div className="flex-1 min-h-0 rounded-2xl overflow-hidden bg-stone-100 border border-[#EEE8D8] relative" style={{boxShadow: '0 10px 28px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6)'}}>
+      <div className="flex-1 flex flex-col min-h-0 px-3 sm:px-4 md:px-6 pt-3 pb-2">
+        <div className="flex-1 min-h-0 rounded-2xl md:rounded-3xl overflow-hidden bg-stone-100 border border-[#EEE8D8] relative" style={{boxShadow: '0 10px 28px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6)'}}>
           {banners.length>0 ? (
             <div className="w-full h-full relative overflow-hidden">
               {banners.map((b,i)=>(
@@ -63,15 +63,15 @@ export default function PromoHome40({ banners, galleryTransition='acak', gallery
                   style={{ zIndex: i===idx ? 1 : 0 }}
                 />
               ))}
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
                 {banners.map((_,i)=>(
                   <button key={i} onClick={()=>go(i)} className={`h-1.5 rounded-full transition-all ${i===idx?'w-5 bg-white':'w-1.5 bg-white/60'}`} />
                 ))}
               </div>
               {banners.length>1 && (
                 <>
-                  <button onClick={()=>go((idx-1+banners.length)%banners.length, galleryTransition==='acak'? pickDir('acak') : undefined)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-7 h-7 grid place-items-center z-10">‹</button>
-                  <button onClick={()=>go((idx+1)%banners.length, galleryTransition==='acak'? pickDir('acak') : undefined)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-7 h-7 grid place-items-center z-10">›</button>
+                  <button onClick={()=>go((idx-1+banners.length)%banners.length, galleryTransition==='acak'? pickDir('acak') : undefined)} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-8 h-8 md:w-10 md:h-10 grid place-items-center z-10 text-lg">‹</button>
+                  <button onClick={()=>go((idx+1)%banners.length, galleryTransition==='acak'? pickDir('acak') : undefined)} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-8 h-8 md:w-10 md:h-10 grid place-items-center z-10 text-lg">›</button>
                 </>
               )}
             </div>
@@ -81,8 +81,8 @@ export default function PromoHome40({ banners, galleryTransition='acak', gallery
         </div>
       </div>
 
-      {/* Menu bawah - ikut bg_color setting */}
-      <div className="flex items-center justify-center px-2 pt-2 pb-4" style={{backgroundColor: bgColor}}>
+      {/* Menu bawah - mobile: buttons, desktop: horizontal nav */}
+      <div className="flex items-center justify-center px-2 pt-2 pb-4 md:pb-6" style={{backgroundColor: bgColor}}>
         <CategoryNav active={tab} onSelect={(v)=>{ setTab(v.toLowerCase() as any); if(v.toLowerCase()==='gallery'){ router.push('/home/gallery') }else{ router.push(`/home/kategori/${v.toLowerCase()}`) } }} bgColor={bgColor} />
       </div>
     </div>

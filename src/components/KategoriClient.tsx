@@ -34,7 +34,7 @@ function ItemCard({ it, price, cardBg, cardShadow, titleShadow, descShadow, isWh
     <div onClick={onDetail} className="relative h-[350px] rounded-2xl overflow-hidden bg-stone-900 cursor-pointer" style={{boxShadow: '0 14px 36px rgba(0,0,0,0.45), 0 6px 14px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.12)'}}>
       {currentImg ? <img src={currentImg} alt={it.nama} className="absolute inset-0 w-full h-full object-cover" /> : <div className="absolute inset-0 grid place-items-center bg-stone-100 text-stone-400 text-sm">No image</div>}
       {it.videoUrl && <video src={it.videoUrl} className="absolute inset-0 w-full h-full object-cover" muted loop playsInline />}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
 
       {allImages.length > 1 && (
         <div className="absolute inset-0 flex" onClick={e=>e.stopPropagation()}>

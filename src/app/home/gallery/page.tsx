@@ -38,7 +38,7 @@ export default async function GalleryPage(){
             {heroSubtitle && <p className="text-xs sm:text-sm text-[#1E3124]/70 italic mt-1">{heroSubtitle}</p>}
           </div>
         )}
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3">
           <div className="text-center pt-1 pb-3">
             <h2 className="font-serif text-xl sm:text-2xl font-semibold text-[#1E3124]" style={{textShadow: '0 1px 2px rgba(30,49,36,0.3)'}}>Gallery Klapa Manis</h2>
             <div className="mx-auto mt-1.5 h-[3px] w-14 rounded-full bg-[#1E3124]/80" />
