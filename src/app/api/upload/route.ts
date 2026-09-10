@@ -24,17 +24,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: `/uploads/${name}` })
   } catch {}
 
-  // Try /tmp/uploads (Vercel)
-  try {
-    const dir = '/tmp/uploads'
-    await mkdir(dir, { recursive: true })
-    await writeFile(path.join(dir, name), buffer)
-    // /tmp not served by Vercel, return base64 data URL instead
-    const base64 = buffer.toString('base64')
-    return NextResponse.json({ url: `data:${mime};base64,${base64}` })
-  } catch {}
+  // Cloudinary (production)
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME
+  const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET
+  if (cloudName && uploadPreset) {
+    try {
+      const formData = new FormData()
+      formData.append('file', new Blob([buffer], { type: mime }), file.name)
+      formData.append('upload_preset', uploadPreset)
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      })
+      if (!res.ok) throw new Error(`Cloudinary ${res.status}`)
+      const data = await res.json()
+      return NextResponse.json({ url: data.secure_url })
+    } catch (e: any) {
+      return NextResponse.json({ error: `Cloudinary gagal: ${e.message}` }, { status: 500 })
+    }
+  }
 
-  // Last resort: base64
-  const base64 = buffer.toString('base64')
-  return NextResponse.json({ url: `data:${mime};base64,${base64}` })
+  return NextResponse.json({ error: 'Tidak ada storage yang tersedia' }, { status: 500 })
 }
