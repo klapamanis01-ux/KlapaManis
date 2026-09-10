@@ -4,6 +4,7 @@ const ITEMS: [string, string][] = [
   ['Minuman', 'Minuman'],
   ['Paket', 'Paket'],
   ['Gallery', 'Gallery'],
+  ['Contact Us', 'Contact Us'],
 ]
 
 export default function CategoryNav({ active, onSelect, bgColor='#FAF7F2' }: { active: string, onSelect: (v:string)=>void, bgColor?: string }) {
@@ -30,6 +31,8 @@ export default function CategoryNav({ active, onSelect, bgColor='#FAF7F2' }: { a
             >
               {label === 'Gallery' ? (
                 <img src="/icons/Gallery.svg" alt={label} className="w-[30px] h-[30px] object-contain shrink-0" />
+              ) : label === 'Contact Us' ? (
+                <img src="/icons/ContactUs.svg" alt={label} className="w-[30px] h-[30px] object-contain shrink-0" />
               ) : (
                 <img
                   src={`/icons/${label}.png`}

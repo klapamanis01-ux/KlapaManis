@@ -83,7 +83,7 @@ export default function PromoHome40({ banners, galleryTransition='acak', gallery
 
       {/* Menu bawah - mobile: buttons, desktop: horizontal nav */}
       <div className="flex items-center justify-center px-2 pt-2 pb-4 md:pb-6" style={{backgroundColor: bgColor}}>
-        <CategoryNav active={tab} onSelect={(v)=>{ setTab(v.toLowerCase() as any); if(v.toLowerCase()==='gallery'){ router.push('/home/gallery') }else{ router.push(`/home/kategori/${v.toLowerCase()}`) } }} bgColor={bgColor} />
+        <CategoryNav active={tab} onSelect={(v)=>{ setTab(v.toLowerCase() as any); if(v.toLowerCase()==='gallery'){ router.push('/home/gallery') }else if(v.toLowerCase()==='contact us'){ router.push('/home/contact') }else{ router.push(`/home/kategori/${v.toLowerCase()}`) } }} bgColor={bgColor} />
       </div>
     </div>
   )

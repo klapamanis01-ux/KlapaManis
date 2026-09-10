@@ -1,0 +1,39 @@
+import { getLandingSettings } from '@/lib/promoRepo'
+import ContactUs from '@/components/ContactUs'
+import PageTransition from '@/components/PageTransition'
+export const dynamic = 'force-dynamic'
+
+export default async function ContactPage(){
+  const settings = await getLandingSettings().catch(()=> ({} as Record<string,string>))
+  const heroImage = settings['promo_landing.hero_image'] || ''
+  const heroTitle = settings['promo_landing.hero_title'] || ''
+  const heroSubtitle = settings['promo_landing.hero_subtitle'] || ''
+  const bgColor = settings['promo_landing.bg_color'] || '#FAF7F2'
+  const whatsapp = settings['promo_landing.whatsapp'] || ''
+  const instagram = settings['promo_landing.instagram'] || ''
+  const tiktok = settings['promo_landing.tiktok'] || ''
+
+  return (
+    <PageTransition>
+    <div className="w-full min-h-screen overflow-y-auto relative">
+      {/* Hero image - top 50% */}
+      <section className="absolute top-0 left-0 right-0 h-[50svh] overflow-hidden bg-stone-900">
+        {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}
+      </section>
+
+      {/* Background cream - starts at 45%, rounded top */}
+      <div className="min-h-[55svh] mt-[45svh] relative z-10 rounded-t-[30px] overflow-hidden" style={{backgroundColor: bgColor, boxShadow: '0 -8px 32px rgba(0,0,0,0.15)'}}>
+        {(heroTitle || heroSubtitle) && (
+          <div className="max-w-5xl mx-auto px-6 sm:px-10 pt-4 pb-2 w-full text-[#1E3124]">
+            {heroTitle && <h1 className="font-serif text-2xl sm:text-4xl font-semibold leading-tight">{heroTitle}</h1>}
+            {heroSubtitle && <p className="text-xs sm:text-sm text-[#1E3124]/70 italic mt-1">{heroSubtitle}</p>}
+          </div>
+        )}
+        <div className="max-w-5xl mx-auto px-6 sm:px-10 py-3">
+          <ContactUs settings={{ whatsapp, instagram, tiktok }} />
+        </div>
+      </div>
+    </div>
+    </PageTransition>
+  )
+}

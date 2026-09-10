@@ -15,6 +15,9 @@ export default function UmumPage(){
       'site.title': form['site.title']||'',
       'site.description': form['site.description']||'',
       'site.favicon_url': form['site.favicon_url']||'',
+      'promo_landing.whatsapp': form['promo_landing.whatsapp']||'',
+      'promo_landing.instagram': form['promo_landing.instagram']||'',
+      'promo_landing.tiktok': form['promo_landing.tiktok']||'',
     }
     const r=await fetch('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     if(r.ok){ setSaved(true); setTimeout(()=>setSaved(false),2000) }
@@ -56,6 +59,19 @@ export default function UmumPage(){
             {get('site.favicon_url') && <button type="button" onClick={()=>set('site.favicon_url','')} className="text-xs text-red-600 underline">Hapus</button>}
           </div>
           <p className="text-[11px] text-slate-400">Rekomendasi: PNG/ICO kotak 512x512. Setelah upload, URL terisi otomatis.</p>
+        </div>
+
+        <div className="bg-white border rounded-xl p-4 space-y-3">
+          <h2 className="text-sm font-semibold text-slate-700">Contact Us</h2>
+          <label className="block text-xs font-medium">Nomor WhatsApp (contoh: 62812xxxx)
+            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="6281234567890" value={get('promo_landing.whatsapp')} onChange={e=>set('promo_landing.whatsapp',e.target.value)} />
+          </label>
+          <label className="block text-xs font-medium">Link Instagram (contoh: https://instagram.com/klapamanis)
+            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="https://instagram.com/klapamanis" value={get('promo_landing.instagram')} onChange={e=>set('promo_landing.instagram',e.target.value)} />
+          </label>
+          <label className="block text-xs font-medium">Link TikTok (contoh: https://tiktok.com/@klapamanis)
+            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="https://tiktok.com/@klapamanis" value={get('promo_landing.tiktok')} onChange={e=>set('promo_landing.tiktok',e.target.value)} />
+          </label>
         </div>
         <button className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 text-sm">Simpan {saved && '✓'}</button>
       </form>
