@@ -4,6 +4,18 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const dynamic = 'force-dynamic'
+
+function toFaviconUrl(url: string): string {
+  // Cloudinary JPG tidak didukung browser sebagai favicon -> convert ke PNG
+  if (url.includes('res.cloudinary.com') && /\.jpe?g(\?|$)/i.test(url)) {
+    // inject f_png transformation: /upload/ -> /upload/f_png/
+    if (url.includes('/upload/')) return url.replace('/upload/', '/upload/f_png/')
+    return url
+  }
+  return url
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   let title = "Menu Book Kompro";
   let description = "Menu Book Kompro";
@@ -19,10 +31,11 @@ export async function generateMetadata(): Promise<Metadata> {
       if (r.key === "site.favicon_url" && r.value) favicon = r.value;
     }
   } catch {}
+  const faviconUrl = favicon ? toFaviconUrl(favicon) : null
   return {
     title,
     description,
-    icons: favicon ? { icon: favicon } : undefined,
+    icons: faviconUrl ? { icon: [{ url: faviconUrl, type: 'image/png' }], shortcut: faviconUrl, apple: faviconUrl } : undefined,
   };
 }
 
