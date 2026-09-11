@@ -16,12 +16,12 @@ export default async function PromoPage() {
 
   return (
     <PageTransition>
-    {/* Mobile: absolute hero + cream overlap (seperti kategori) - tidak scroll */}
-    <div className="md:hidden flex flex-col h-[100svh] w-full overflow-hidden relative">
+    {/* Mobile: coba inner scroll, outer fixed */}
+    <div className="md:hidden flex flex-col h-screen w-full overflow-hidden fixed inset-0">
       <section className="absolute top-0 left-0 right-0 h-[50svh] overflow-hidden bg-stone-900">
         {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}
       </section>
-      <div className="flex-1 flex flex-col mt-[45svh] relative z-10 rounded-t-[30px] overflow-hidden" style={{backgroundColor: bgColor, boxShadow: '0 -8px 32px rgba(0,0,0,0.15)'}}>
+      <div className="flex-1 flex flex-col mt-[45svh] relative z-10 rounded-t-[30px] overflow-hidden overflow-y-auto overscroll-contain" style={{backgroundColor: bgColor, boxShadow: '0 -8px 32px rgba(0,0,0,0.15)'}}>
         {(heroTitle || heroSubtitle) && (
           <div className="max-w-5xl mx-auto px-4 pt-4 pb-2 w-full text-[#1E3124] shrink-0">
             {heroTitle && <h1 className="font-serif text-2xl font-semibold leading-tight">{heroTitle}</h1>}
@@ -34,7 +34,7 @@ export default async function PromoPage() {
       </div>
     </div>
     {/* Desktop: hero lebar sama dengan gallery (max-w-5xl), tidak scroll */}
-    <div className="hidden md:flex flex-col h-[100svh] w-full overflow-hidden" style={{backgroundColor: bgColor}}>
+    <div className="hidden md:flex flex-col h-[100dvh] w-full overflow-hidden" style={{backgroundColor: bgColor}}>
       <div className="flex-1 flex flex-col min-h-0 max-w-5xl mx-auto w-full px-6 py-6 gap-4 overflow-hidden">
         <section className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden bg-stone-900 shrink-0">
           {heroImage && <img src={heroImage} alt="Hero" className="w-full h-full object-contain" />}

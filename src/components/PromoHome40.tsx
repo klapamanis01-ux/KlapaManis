@@ -54,7 +54,7 @@ export default function PromoHome40({ banners, galleryTransition='acak', gallery
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 space-y-3">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-2 space-y-4">
       {/* Gallery slider */}
       <div className="w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] rounded-2xl md:rounded-3xl overflow-hidden bg-stone-100 border border-[#EEE8D8] relative" style={{boxShadow: '0 10px 28px rgba(0,0,0,0.35), 0 4px 10px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6)'}}>
         {banners.length>0 ? (
@@ -86,7 +86,7 @@ export default function PromoHome40({ banners, galleryTransition='acak', gallery
       </div>
 
       {/* Category nav */}
-      <div className="flex justify-center pt-2 pb-4">
+      <div className="flex justify-center pt-3 pb-2">
         <CategoryNav active={tab} onSelect={navigate} bgColor={bgColor} />
       </div>
     </div>
