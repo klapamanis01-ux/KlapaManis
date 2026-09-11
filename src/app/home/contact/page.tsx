@@ -12,6 +12,11 @@ export default async function ContactPage(){
   const whatsapp = settings['promo_landing.whatsapp'] || ''
   const instagram = settings['promo_landing.instagram'] || ''
   const tiktok = settings['promo_landing.tiktok'] || ''
+  const title = settings['contact_us.title'] || ''
+  const subtitle = settings['contact_us.subtitle'] || ''
+  const whatsappDisplay = settings['promo_landing.whatsapp_display'] || settings['contact_us.whatsapp_display'] || ''
+  const instagramDisplay = settings['promo_landing.instagram_display'] || settings['contact_us.instagram_display'] || ''
+  const tiktokDisplay = settings['promo_landing.tiktok_display'] || settings['contact_us.tiktok_display'] || ''
 
   return (
     <PageTransition>
@@ -30,7 +35,7 @@ export default async function ContactPage(){
           </div>
         )}
         <div className="max-w-5xl mx-auto px-6 sm:px-10 py-3">
-          <ContactUs settings={{ whatsapp, instagram, tiktok }} />
+          <ContactUs settings={{ whatsapp, instagram, tiktok, title: title||undefined, subtitle: subtitle||undefined, whatsappDisplay, instagramDisplay, tiktokDisplay }} />
         </div>
       </div>
     </div>

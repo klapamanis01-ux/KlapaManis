@@ -18,6 +18,11 @@ export default function UmumPage(){
       'promo_landing.whatsapp': form['promo_landing.whatsapp']||'',
       'promo_landing.instagram': form['promo_landing.instagram']||'',
       'promo_landing.tiktok': form['promo_landing.tiktok']||'',
+      'contact_us.title': form['contact_us.title']||'',
+      'contact_us.subtitle': form['contact_us.subtitle']||'',
+      'contact_us.whatsapp_display': form['contact_us.whatsapp_display']||'',
+      'contact_us.instagram_display': form['contact_us.instagram_display']||'',
+      'contact_us.tiktok_display': form['contact_us.tiktok_display']||'',
     }
     const r=await fetch('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     if(r.ok){ setSaved(true); setTimeout(()=>setSaved(false),2000) }
@@ -62,16 +67,35 @@ export default function UmumPage(){
         </div>
 
         <div className="bg-white border rounded-xl p-4 space-y-3">
-          <h2 className="text-sm font-semibold text-slate-700">Contact Us</h2>
-          <label className="block text-xs font-medium">Nomor WhatsApp (contoh: 62812xxxx)
-            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="6281234567890" value={get('promo_landing.whatsapp')} onChange={e=>set('promo_landing.whatsapp',e.target.value)} />
+          <h2 className="text-sm font-semibold text-slate-700">Contact Us — Tampilan Halaman</h2>
+          <label className="block text-xs font-medium">Judul Halaman (contact_us.title)
+            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="Hubungi Kami" value={get('contact_us.title')} onChange={e=>set('contact_us.title',e.target.value)} />
           </label>
-          <label className="block text-xs font-medium">Link Instagram (contoh: https://instagram.com/klapamanis)
-            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="https://instagram.com/klapamanis" value={get('promo_landing.instagram')} onChange={e=>set('promo_landing.instagram',e.target.value)} />
+          <label className="block text-xs font-medium">Deskripsi / Subjudul (contact_us.subtitle)
+            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="Kami siap melayani pertanyaan dan reservasi Anda" value={get('contact_us.subtitle')} onChange={e=>set('contact_us.subtitle',e.target.value)} />
           </label>
-          <label className="block text-xs font-medium">Link TikTok (contoh: https://tiktok.com/@klapamanis)
-            <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="https://tiktok.com/@klapamanis" value={get('promo_landing.tiktok')} onChange={e=>set('promo_landing.tiktok',e.target.value)} />
-          </label>
+          <div className="border-t pt-3 space-y-3">
+            <p className="text-xs font-semibold text-slate-600">Link + Teks Tampil (yang muncul di halaman, bukan URL mentah)</p>
+            <label className="block text-xs font-medium">Nomor WhatsApp (contoh: 62812xxxx)
+              <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="6281234567890" value={get('promo_landing.whatsapp')} onChange={e=>set('promo_landing.whatsapp',e.target.value)} />
+            </label>
+            <label className="block text-xs font-medium">Teks tampil WhatsApp (contact_us.whatsapp_display)
+              <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="+62 857 2441 1160" value={get('contact_us.whatsapp_display')} onChange={e=>set('contact_us.whatsapp_display',e.target.value)} />
+            </label>
+            <label className="block text-xs font-medium">Link Instagram (contoh: https://instagram.com/klapamanis)
+              <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="https://instagram.com/klapamanis" value={get('promo_landing.instagram')} onChange={e=>set('promo_landing.instagram',e.target.value)} />
+            </label>
+            <label className="block text-xs font-medium">Teks tampil Instagram (contact_us.instagram_display)
+              <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="@klapamanis.cirebon" value={get('contact_us.instagram_display')} onChange={e=>set('contact_us.instagram_display',e.target.value)} />
+            </label>
+            <label className="block text-xs font-medium">Link TikTok (contoh: https://tiktok.com/@klapamanis)
+              <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="https://tiktok.com/@klapamanis" value={get('promo_landing.tiktok')} onChange={e=>set('promo_landing.tiktok',e.target.value)} />
+            </label>
+            <label className="block text-xs font-medium">Teks tampil TikTok (contact_us.tiktok_display)
+              <input className="mt-1 w-full border rounded-lg px-3 py-2 text-sm" placeholder="@klapamanis" value={get('contact_us.tiktok_display')} onChange={e=>set('contact_us.tiktok_display',e.target.value)} />
+            </label>
+            <p className="text-[11px] text-slate-400">Kosongkan teks tampil untuk pakai otomatis dari link (akan potong parameter ?utm...).</p>
+          </div>
         </div>
         <button className="w-full bg-teal-600 text-white rounded-lg px-4 py-2 text-sm">Simpan {saved && '✓'}</button>
       </form>
