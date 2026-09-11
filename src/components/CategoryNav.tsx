@@ -43,6 +43,8 @@ export default function CategoryNav({ active, onSelect, bgColor='#FAF7F2' }: { a
                 />
               )}
             </div>
+            {/* Mobile: label text */}
+            <span className="sm:hidden text-[10px] font-bold text-[#1E3124] whitespace-nowrap">{label}</span>
             {/* Desktop: combo box buttons */}
             <div
               className={[
