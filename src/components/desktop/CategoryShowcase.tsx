@@ -1,18 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DetailModal from '../DetailModal'
 import { TABS, type DesktopTab } from './DesktopTopBar'
 import MenuSearchOverlay from './MenuSearchOverlay'
 import type { SearchItem } from './OneScreenShell'
 import { type Dish, dishPhoto } from './DishCarousel'
 import type { UiLabels, DesktopFonts } from '@/lib/siteInfo'
-
-function finalPrice(d: Dish): number | null {
-  if (Number(d.harga) === 0) return null
-  const disc = Number(d.diskon) || 0
-  return disc > 0 ? Math.round(Number(d.harga) * (1 - disc / 100)) : Number(d.harga)
-}
 
 // Halaman kategori desktop ala referensi: terang, grid kartu, foto diagonal.
 export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, active, bg, eyebrow, title1, title2, titleFallback, description, items, location, signature, scriptFont, fonts, searchItems, reservasiHref, ui, coverPhotoProp, logoUrl }: {
@@ -39,12 +32,7 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
 }) {
   const router = useRouter()
   const [searchOpen, setSearchOpen] = useState(false)
-  const [detail, setDetail] = useState<{ title: string; image: string | null; images?: string[]; desc?: string | null; price?: string | null } | null>(null)
 
-  const openDetail = (d: Dish) => {
-    const p = finalPrice(d)
-    setDetail({ title: d.nama, image: dishPhoto(d), images: d.photos, desc: d.deskripsi, price: p != null ? `Rp ${p.toLocaleString('id-ID')}` : undefined })
-  }
   // Maksimal 6 tampil (6 pertama sesuai urutan admin)
   const visible = items.slice(0, 6)
   const autoCover = items.length > 0 ? dishPhoto(items[0]) : null
@@ -93,7 +81,7 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
               {titleFallback}
             </h1>
           )}
-          {description && <p className="mt-2.5 leading-relaxed max-w-xl shrink-0" style={{ fontSize: 14, color: '#5B564C' }}>{description}</p>}
+          {/* deskripsi kategori disembunyikan di desktop versi ini */}
 
           <div className="mt-3 shrink-0">
             {items.length === 0 ? (
@@ -103,11 +91,10 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
             ) : (
               <div className="grid grid-cols-3 gap-4">
                 {visible.map((it) => (
-                  <button
+                  <div
                     key={it.id}
-                    onClick={() => openDetail(it)}
-                    className="rounded-xl overflow-hidden border text-left transition-all hover:-translate-y-1 active:translate-y-[4px]"
-                    style={{ borderColor: '#E7D9B8', backgroundColor: '#FCF6E8', boxShadow: '0 8px 0 rgba(30,49,36,0.12), 0 26px 46px rgba(30,49,36,0.22), inset 0 1px 0 rgba(255,255,255,0.9)' }}
+                    className="rounded-xl overflow-hidden border text-left"
+                    style={{ borderColor: '#E7D9B8', backgroundColor: '#FCF6E8', boxShadow: '0 8px 0 rgba(30,49,36,0.08), 0 18px 34px rgba(30,49,36,0.16), inset 0 1px 0 rgba(255,255,255,0.8)' }}
                   >
                     {(it.desktopPhotoUrl || it.photoUrl) ? (
                       <img src={(it.desktopPhotoUrl || it.photoUrl) as string} alt={it.nama} className="w-full h-36 object-cover" loading="lazy" />
@@ -118,7 +105,7 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
                       <div className="text-[12px] font-extrabold leading-tight truncate" style={{ color: '#1A2B1F' }}>{it.nama}</div>
                       {it.deskripsi && <div className="line-clamp-2 leading-snug min-h-[24px]" style={{ fontSize: 10, color: '#6E6A5E' }}>{it.deskripsi}</div>}
                     </div>
-                  </button>
+                  </div>
                 ))}
               </div>
             )}
@@ -184,7 +171,6 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
       </div>
 
       {searchOpen && <MenuSearchOverlay items={searchItems} onClose={() => setSearchOpen(false)} ui={ui} />}
-      <DetailModal data={detail} onClose={() => setDetail(null)} />
     </div>
   )
 }

@@ -18,7 +18,15 @@ export default function DesktopBackgroundSetting() {
     const fd = new FormData(); fd.append('file', file)
     const r = await fetch('/api/upload', { method: 'POST', body: fd })
     const j = await r.json().catch(() => ({}))
-    if (j.url) set(key, j.url)
+    if (j.url) {
+      set(key, j.url)
+      await fetch('/api/settings', {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [key]: j.url }),
+      }).catch(() => {})
+    } else {
+      alert('Upload gagal, coba lagi.')
+    }
     setUploading(false)
   }
   return (

@@ -10,7 +10,7 @@ export default function DesktopContactSetting() {
         <Field label="Eyebrow" settingsKey="desktop.eyebrow_contact" placeholder="HUBUNGI KAMI" get={get} set={set} />
         <Field label="Judul baris 1 (gelap)" settingsKey="desktop.title1_contact" placeholder="Mari Terhubung" get={get} set={set} />
         <Field label="Judul baris 2 (emas)" settingsKey="desktop.title2_contact" placeholder="dengan Kami" get={get} set={set} />
-        <ImageField settingsKey="desktop.bg_contact_left" label="Kiri — Background" hint="Warna, gradasi, atau upload gambar. Kosongkan = ikut default. Kanan = peta otomatis." get={get} set={set} />
+        <ImageField settingsKey="desktop.bg_contact_left" label="Kiri — Background" hint="Warna, gradasi, atau upload gambar. Kosongkan = ikut default. Kanan = peta otomatis." get={get} set={set} textInput textPlaceholder="#0D1410 / linear-gradient(...) / URL" />
       </>)}
     </DesktopSettingPage>
   )

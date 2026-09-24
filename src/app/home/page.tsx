@@ -36,7 +36,7 @@ export default async function PromoPage() {
         title={settings['site.title'] || 'Klapa Manis'}
         brandSub={settings['desktop.home_brand_sub'] || 'RUMAH MAKAN'}
         tagline={settings['desktop.home_tagline'] || 'Rasa Nusantara, Hangatnya Kebersamaan.'}
-        description={heroSubtitle || settings['site.description'] || 'Nikmati hidangan Nusantara dengan cita rasa autentik dan suasana indah Gronggong, Cirebon.'}
+        description={heroSubtitle || ''}
         location={settings['contact_us.address'] || 'Gronggong, Cirebon'}
         signature={settings['desktop.home_signature'] || 'Lebih dari Sekadar Makan'}
         note={settings['desktop.home_note'] || 'Pilihan keluarga untuk setiap momen spesial'}

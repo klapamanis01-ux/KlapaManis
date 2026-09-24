@@ -35,8 +35,13 @@ export default function UmumPage(){
     setUploading(true)
     const fd=new FormData(); fd.append('file',file)
     const r=await fetch('/api/upload',{method:'POST',body:fd})
-    const j=await r.json()
-    if(j.url) setForm(f=>({...f,'site.favicon_url':j.url}))
+    const j=await r.json().catch(()=>({}))
+    if(j.url){
+      setForm(f=>({...f,'site.favicon_url':j.url}))
+      await fetch('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({'site.favicon_url':j.url})}).catch(()=>{})
+    } else {
+      alert('Upload gagal, coba lagi.')
+    }
     setUploading(false)
   }
 
@@ -64,7 +69,7 @@ export default function UmumPage(){
               <input type="file" accept="image/*,.ico" className="hidden" onChange={e=>{if(e.target.files?.[0])upload(e.target.files[0])}} />
             </label>
             {get('site.favicon_url') && <img src={get('site.favicon_url')} alt="favicon preview" className="w-8 h-8 object-contain border rounded bg-white p-1" />}
-            {get('site.favicon_url') && <button type="button" onClick={()=>set('site.favicon_url','')} className="text-xs text-red-600 underline">Hapus</button>}
+            {get('site.favicon_url') && <button type="button" onClick={async()=>{if(!confirm('Hapus logo ini?'))return; set('site.favicon_url',''); await fetch('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({'site.favicon_url':''})}).catch(()=>{})}} className="text-xs text-red-600 underline">Hapus</button>}
           </div>
           <p className="text-[11px] text-slate-400">Rekomendasi: PNG/ICO kotak 512x512. Setelah upload, URL terisi otomatis.</p>
         </div>

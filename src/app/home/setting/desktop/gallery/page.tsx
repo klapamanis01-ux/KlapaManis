@@ -11,8 +11,8 @@ export default function DesktopGallerySetting() {
         <Field label="Judul baris 1 (gelap)" settingsKey="desktop.title1_gallery" placeholder="Momen Istimewa" get={get} set={set} />
         <Field label="Judul baris 2 (emas)" settingsKey="desktop.title2_gallery" placeholder="di Klapa Manis" get={get} set={set} />
         <Field label="Deskripsi" settingsKey="desktop.desc_gallery" placeholder="Suasana dan momen terbaik..." get={get} set={set} />
-        <ImageField settingsKey="desktop.bg_gallery_left" label="Kiri — Background" hint="Warna, gradasi, atau upload gambar. Kosongkan = ikut default." get={get} set={set} />
-        <ImageField settingsKey="desktop.bg_gallery_right" label="Kanan — Foto (kosongkan = foto gallery otomatis)" hint="Timpa foto panel kanan dengan gambar pilihan." get={get} set={set} />
+        <ImageField settingsKey="desktop.bg_gallery_left" label="Kiri — Background" hint="Warna, gradasi, atau upload gambar. Kosongkan = ikut default." get={get} set={set} textInput textPlaceholder="#0D1410 / linear-gradient(...) / URL" />
+        <ImageField settingsKey="desktop.bg_gallery_right" label="Kanan — Foto (kosongkan = foto gallery otomatis)" hint="Timpa foto panel kanan dengan gambar pilihan." get={get} set={set} textInput textPlaceholder="#0D1410 / linear-gradient(...) / URL" />
       </>)}
     </DesktopSettingPage>
   )

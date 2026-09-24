@@ -28,7 +28,13 @@ export default function TampilanPage(){
   }
   async function upload(f:File){
     const fd=new FormData(); fd.append('file',f)
-    const r=await fetch('/api/upload',{method:'POST',body:fd}); const j=await r.json(); if(j.url) setForm({...form,'promo_landing.hero_image':j.url})
+    const r=await fetch('/api/upload',{method:'POST',body:fd}); const j=await r.json().catch(()=>({}))
+    if(j.url){
+      setForm({...form,'promo_landing.hero_image':j.url})
+      await fetch('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({'promo_landing.hero_image':j.url})}).catch(()=>{})
+    } else {
+      alert('Upload gagal, coba lagi.')
+    }
   }
   const get = (k:string, def='') => form[k] || def
   const set = (k:string,v:string) => setForm({...form,[k]:v})

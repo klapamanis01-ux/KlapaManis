@@ -33,38 +33,71 @@ export function Field({ label, settingsKey, placeholder, mono, get, set }: {
   )
 }
 
-export function ImageField({ settingsKey, label, hint, get, set }: {
+export function ImageField({ settingsKey, label, hint, get, set, textInput, textPlaceholder }: {
   settingsKey: string
   label: string
   hint: string
   get: (k: string) => string
   set: (k: string, v: string) => void
+  textInput?: boolean
+  textPlaceholder?: string
 }) {
   const [uploading, setUploading] = useState(false)
+  const [erased, setErased] = useState(false)
+  async function persist(value: string) {
+    await fetch('/api/settings', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [settingsKey]: value }),
+    }).catch(() => {})
+  }
   async function upload(file: File) {
     setUploading(true)
     const fd = new FormData(); fd.append('file', file)
     const r = await fetch('/api/upload', { method: 'POST', body: fd })
     const j = await r.json().catch(() => ({}))
-    if (j.url) set(settingsKey, j.url)
+    if (j.url) {
+      set(settingsKey, j.url)
+      await persist(j.url)
+    } else {
+      alert('Upload gagal, coba lagi.')
+    }
     setUploading(false)
+  }
+  async function erase() {
+    if (!confirm('Hapus gambar ini?')) return
+    set(settingsKey, '')
+    setErased(true)
+    await persist('')
+    setTimeout(() => setErased(false), 2500)
   }
   return (
     <div className="space-y-2">
       <span className="block text-xs font-medium">{label} ({settingsKey})</span>
+      {textInput && (
+        <input
+          className="w-full border rounded-lg px-3 py-2 text-sm bg-white font-mono"
+          placeholder={textPlaceholder}
+          value={get(settingsKey)}
+          onChange={(e) => set(settingsKey, e.target.value)}
+        />
+      )}
       <div className="flex items-center gap-3">
         <label className="text-xs bg-slate-900 text-white px-3 py-1.5 rounded-lg cursor-pointer">
           {uploading ? 'Uploading...' : 'Upload Foto'}
           <input type="file" accept="image/*" className="hidden" onChange={(e) => { if (e.target.files?.[0]) upload(e.target.files[0]) }} />
         </label>
-        {get(settingsKey) && (
+        {(get(settingsKey).startsWith('http') || get(settingsKey).startsWith('/')) && (
           <>
             <img src={get(settingsKey)} className="h-16 w-16 object-cover rounded-lg border" alt={label} />
-            <button type="button" onClick={() => set(settingsKey, '')} className="text-xs text-red-600 underline">Hapus</button>
+            <button type="button" onClick={erase} className="text-xs text-red-600 underline">Hapus</button>
           </>
         )}
+        {get(settingsKey) && !get(settingsKey).startsWith('http') && !get(settingsKey).startsWith('/') && (
+          <button type="button" onClick={erase} className="text-xs text-red-600 underline">Hapus</button>
+        )}
+        {erased && <span className="text-xs text-teal-600">Terhapus ✓</span>}
       </div>
-      <p className="text-[11px] text-slate-400">{hint}</p>
+      <p className="text-[11px] text-slate-400">{hint} Upload & hapus langsung tersimpan (tidak perlu tekan Simpan).</p>
     </div>
   )
 }
