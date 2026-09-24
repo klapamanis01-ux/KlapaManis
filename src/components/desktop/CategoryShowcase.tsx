@@ -81,7 +81,7 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
               {titleFallback}
             </h1>
           )}
-          {/* deskripsi kategori disembunyikan di desktop versi ini */}
+          {description && <p className="mt-2.5 leading-relaxed max-w-xl shrink-0" style={{ fontSize: 14, color: '#5B564C' }}>{description}</p>}
 
           <div className="mt-3 shrink-0">
             {items.length === 0 ? (

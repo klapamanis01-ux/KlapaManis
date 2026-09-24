@@ -31,7 +31,6 @@ function LoginInner() {
         <input type="password" className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
         {err && <div className="text-xs text-red-600 text-center">{err}</div>}
         <button disabled={loading} className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-lg py-2 text-sm">{loading ? '...' : 'Masuk'}</button>
-        <div className="text-[11px] text-slate-400 text-center">Default seed: admin@promo.local / admin123</div>
       </form>
     </div>
   )
