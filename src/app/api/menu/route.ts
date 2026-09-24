@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
     nama: String(b.nama),
     deskripsi: b.deskripsi ? String(b.deskripsi) : null,
     photoUrl: b.photoUrl ? String(b.photoUrl) : null,
+    desktopPhotoUrl: b.desktopPhotoUrl ? String(b.desktopPhotoUrl) : null,
     videoUrl: b.videoUrl ? String(b.videoUrl) : null,
     kategori: b.kategori ? String(b.kategori) : 'Lainnya',
     harga: Number(b.harga) || 0,

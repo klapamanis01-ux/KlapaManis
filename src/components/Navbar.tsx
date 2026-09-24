@@ -6,6 +6,7 @@ const ITEMS: [string, string][] = [
   ['Minuman', 'Minuman'],
   ['Paket', 'Paket'],
   ['Gallery', 'Gallery'],
+  ['Contact Us', 'Contact Us'],
 ]
 
 export default function Navbar({ active, bgColor }: { active: string, bgColor: string }) {
@@ -24,6 +25,7 @@ export default function Navbar({ active, bgColor }: { active: string, bgColor: s
               key={value}
               onClick={() => {
                 if (value === 'Gallery') router.push('/home/gallery')
+                else if (value === 'Contact Us') router.push('/home/contact')
                 else router.push(`/home/kategori/${value.toLowerCase()}`)
               }}
               className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${

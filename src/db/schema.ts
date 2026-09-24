@@ -42,6 +42,7 @@ export const menu = pgTable('menu', {
   nama: text('nama').notNull(),
   deskripsi: text('deskripsi'),
   photoUrl: text('photo_url'),
+  desktopPhotoUrl: text('desktop_photo_url'),
   videoUrl: text('video_url'),
   kategori: text('kategori').notNull().default('Lainnya'), // makanan | minuman | paket | lainnya (bebas)
   harga: integer('harga').notNull().default(0), // SATU HARGA TETAP

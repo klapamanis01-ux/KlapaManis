@@ -14,6 +14,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     nama: b.nama !== undefined ? String(b.nama) : undefined,
     deskripsi: b.deskripsi !== undefined ? (b.deskripsi ? String(b.deskripsi) : null) : undefined,
     photoUrl: b.photoUrl !== undefined ? (b.photoUrl ? String(b.photoUrl) : null) : undefined,
+    desktopPhotoUrl: b.desktopPhotoUrl !== undefined ? (b.desktopPhotoUrl ? String(b.desktopPhotoUrl) : null) : undefined,
     videoUrl: b.videoUrl !== undefined ? (b.videoUrl ? String(b.videoUrl) : null) : undefined,
     kategori: b.kategori !== undefined ? String(b.kategori) : undefined,
     harga: b.harga !== undefined ? Number(b.harga) : undefined,

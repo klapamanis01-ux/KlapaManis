@@ -1,15 +1,15 @@
 'use client'
 import { useState } from 'react'
 import DetailModal from './DetailModal'
-type Item = { id:number, nama:string, deskripsi:string|null, photoUrl:string|null, videoUrl?:string|null, harga:number, diskon:number|null, kategori:string, photos?:string[] }
+export type MenuItem = { id:number, nama:string, deskripsi:string|null, photoUrl:string|null, videoUrl?:string|null, harga:number, diskon:number|null, kategori:string, photos?:string[] }
 
-export default function KategoriClient({ items, cardBg, cardShadow, titleShadow, descShadow, isWhiteCard, namaColor, descColor, cardShow=true }: {
-  items: Item[], cardBg:string, cardShadow:string, titleShadow:string, descShadow:string, isWhiteCard:boolean, namaColor?:string, descColor?:string, cardShow?:boolean
+export default function KategoriClient({ items, cardBg, cardShadow, titleShadow, descShadow, isWhiteCard, namaColor, descColor, cardShow=true, grid=false }: {
+  items: MenuItem[], cardBg:string, cardShadow:string, titleShadow:string, descShadow:string, isWhiteCard:boolean, namaColor?:string, descColor?:string, cardShow?:boolean, grid?:boolean
 }){
   const [detail,setDetail]=useState<{title:string,image:string|null,images?:string[],desc?:string|null,price?:string|null}|null>(null)
   return (
     <>
-      <div className="space-y-3">
+      <div className={grid ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4' : 'space-y-3'}>
         {items.map(it=>{
           const hasDiskon=(it.diskon||0)>0
           const disc=hasDiskon?Math.round(it.harga*(1-it.diskon!/100)):null
@@ -24,7 +24,7 @@ export default function KategoriClient({ items, cardBg, cardShadow, titleShadow,
 }
 
 function ItemCard({ it, price, cardBg, cardShadow, titleShadow, descShadow, isWhiteCard, namaColor, descColor, cardShow, onDetail }: {
-  it: Item, price: string|null, cardBg: string, cardShadow: string, titleShadow: string, descShadow: string, isWhiteCard: boolean, namaColor?: string, descColor?: string, cardShow: boolean, onDetail: ()=>void
+  it: MenuItem, price: string|null, cardBg: string, cardShadow: string, titleShadow: string, descShadow: string, isWhiteCard: boolean, namaColor?: string, descColor?: string, cardShow: boolean, onDetail: ()=>void
 }){
   const allImages = [it.photoUrl, ...(it.photos||[])].filter(Boolean) as string[]
   const [imgIdx, setImgIdx] = useState(0)

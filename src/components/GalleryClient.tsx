@@ -3,14 +3,14 @@ import { useState } from 'react'
 import DetailModal from './DetailModal'
 type GalleryItem = { id:number, imageUrl:string, title:string|null, deskripsi:string|null, urutan:number }
 
-export default function GalleryClient({ items, cardBg, cardShadow, isWhiteCard, namaColor, descColor }: {
-  items: GalleryItem[], cardBg:string, cardShadow:string, isWhiteCard:boolean, namaColor?:string, descColor?:string
+export default function GalleryClient({ items, cardBg, cardShadow, isWhiteCard, namaColor, descColor, colsClass='grid-cols-2' }: {
+  items: GalleryItem[], cardBg:string, cardShadow:string, isWhiteCard:boolean, namaColor?:string, descColor?:string, colsClass?:string
 }){
   const [detail,setDetail]=useState<{title:string,image:string|null,desc?:string|null}|null>(null)
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3">
+      <div className={`grid gap-3 ${colsClass}`}>
         {items.map(it=>(
           <div key={it.id} onClick={()=>setDetail({title:it.title||'', image:it.imageUrl, desc:it.deskripsi})} className="relative rounded-2xl overflow-hidden bg-stone-900 cursor-pointer aspect-[3/4]" style={{boxShadow: '0 14px 36px rgba(0,0,0,0.45), 0 6px 14px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.12)'}}>
             <img src={it.imageUrl} alt={it.title||''} className="absolute inset-0 w-full h-full object-cover" />

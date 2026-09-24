@@ -4,7 +4,32 @@ import { menu, menuPhoto } from '@/db/schema'
 import { eq, asc } from 'drizzle-orm'
 import KategoriClient from '@/components/KategoriClient'
 import PageTransition from '@/components/PageTransition'
+import CategoryShowcase from '@/components/desktop/CategoryShowcase'
+import { Great_Vibes, Playfair_Display, Inter } from 'next/font/google'
+import { isDesktopRequest } from '@/lib/device'
+import { getAllMenus } from '@/lib/promoRepo'
+import { toSearchItems, bgCss, getUiLabels, getPageBg, asImageUrl } from '@/lib/siteInfo'
 export const dynamic = 'force-dynamic'
+
+const scriptFont = Great_Vibes({ weight: '400', subsets: ['latin'] })
+const serifFont = Playfair_Display({ weight: ['700', '800'], subsets: ['latin'] })
+const sansFont = Inter({ weight: ['400', '600', '700', '800'], subsets: ['latin'] })
+
+const DEFAULT_DESC: Record<string, string> = {
+  makanan: 'Rasakan kelezatan hidangan Nusantara yang dimasak dengan cinta dan cita rasa autentik.',
+  minuman: 'Segarkan harimu dengan pilihan minuman dari kelapa hingga kopi khas Klapa Manis.',
+  paket: 'Pilihan hemat untuk keluarga dan momen kebersamaan.',
+}
+const DEFAULT_TITLE1: Record<string, string> = {
+  makanan: 'Hidangan Nusantara',
+  minuman: 'Minuman',
+  paket: 'Paket Hemat',
+}
+const DEFAULT_TITLE2: Record<string, string> = {
+  makanan: 'untuk Setiap Momen',
+  minuman: 'Segar Setiap Saat',
+  paket: 'untuk Kebersamaan',
+}
 
 const LABEL: Record<string,string> = { makanan:'Makanan', minuman:'Minuman', paket:'Paket' }
 
@@ -36,9 +61,44 @@ export default async function KategoriPage({ params }: { params: { slug: string 
     return { ...it, photos: photos.map(p => p.imageUrl) }
   }))
 
+  if (isDesktopRequest()) {
+    const dishes = itemsWithPhotos.map((it: any) => ({
+      id: it.id, nama: it.nama, deskripsi: it.deskripsi, harga: it.harga,
+      diskon: it.diskon, photoUrl: it.photoUrl, desktopPhotoUrl: it.desktopPhotoUrl || null, photos: it.photos || [],
+    }))
+    const allMenus = await getAllMenus().catch(() => [])
+    const wa = settings['promo_landing.whatsapp'] || ''
+    const desc = settings[`desktop.desc_${slug}`] || DEFAULT_DESC[slug] || `Jelajahi pilihan ${kategori.toLowerCase()} terbaik dari dapur kami.`
+    return (
+      <PageTransition>
+      <CategoryShowcase
+        brandTitle={settings['site.title'] || 'Klapa Manis'}
+        brandSub={settings['desktop.home_brand_sub'] || 'RUMAH MAKAN'}
+        brandTagline={settings['desktop.home_tagline'] || 'Rasa Nusantara, Hangatnya Kebersamaan.'}
+        active={slug === 'makanan' || slug === 'minuman' || slug === 'paket' ? (slug as any) : 'home'}
+        bg={bgCss(getPageBg(settings, slug).left, '#FAF6EE')}
+        eyebrow={`MENU ${kategori.toUpperCase()}`}
+        title1={settings[`desktop.title1_${slug}`] || DEFAULT_TITLE1[slug] || ''}
+        title2={settings[`desktop.title2_${slug}`] || DEFAULT_TITLE2[slug] || ''}
+        titleFallback={kategori}
+        description={desc}
+        items={dishes}
+        location={settings['contact_us.address'] || 'Gronggong, Cirebon'}
+        signature={settings['desktop.home_signature'] || 'Lebih dari Sekadar Makan'}
+        scriptFont={scriptFont.className}
+        searchItems={toSearchItems(allMenus as any)}
+        reservasiHref={wa ? `https://wa.me/${wa.replace(/[^0-9]/g, '')}` : ''}
+        ui={getUiLabels(settings)}
+        fonts={{ serif: serifFont.className, sans: sansFont.className }}
+        coverPhotoProp={asImageUrl(getPageBg(settings, slug).right) || undefined}
+      />
+      </PageTransition>
+    )
+  }
+
   return (
     <PageTransition>
-    <div className="w-full min-h-screen overflow-y-auto relative">
+    <div data-device="mobile" className="w-full min-h-screen overflow-y-auto relative">
       {/* Hero image - top 50% */}
       <section className="absolute top-0 left-0 right-0 h-[50svh] overflow-hidden bg-stone-900">
         {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}

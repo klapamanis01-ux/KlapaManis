@@ -36,3 +36,10 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# local db backups (otomatis, jangan di-commit)
+/backups/
+# dev server test logs
+dev3007*.log
+# upload lokal (production pakai Cloudinary, jangan di-commit)
+/public/uploads/

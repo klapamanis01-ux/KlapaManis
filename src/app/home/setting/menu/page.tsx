@@ -1,12 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-type Row = { id:number,nama:string,deskripsi:string|null,photoUrl:string|null,kategori:string,harga:number,diskon:number,isRecommended:number,isNew:number,urutan:number,aktif:number }
+type Row = { id:number,nama:string,deskripsi:string|null,photoUrl:string|null,desktopPhotoUrl:string|null,kategori:string,harga:number,diskon:number,isRecommended:number,isNew:number,urutan:number,aktif:number }
 type Photo = { id:number, menuId:number, imageUrl:string, urutan:number }
 
 export default function MenuSettingPage(){
   const [rows,setRows]=useState<Row[]>([])
-  const [form,setForm]=useState<any>({nama:'',kategori:'Makanan',harga:0,diskon:0,deskripsi:'',photoUrl:'',isRecommended:false,isNew:false,aktif:1})
+  const [form,setForm]=useState<any>({nama:'',kategori:'Makanan',harga:0,diskon:0,deskripsi:'',photoUrl:'',desktopPhotoUrl:'',isRecommended:false,isNew:false,aktif:1})
   const [editId,setEditId]=useState<number|null>(null)
   const [uploading,setUploading]=useState(false)
   const [photos,setPhotos]=useState<Photo[]>([])
@@ -25,6 +25,16 @@ export default function MenuSettingPage(){
     if(j.url) setForm((s:any)=>({...s,photoUrl:j.url}))
   }
 
+  const [uploadingDesktop,setUploadingDesktop]=useState(false)
+  async function uploadDesktopFile(f:File){
+    setUploadingDesktop(true)
+    const fd=new FormData(); fd.append('file',f)
+    const r=await fetch('/api/upload',{method:'POST',body:fd})
+    const j=await r.json()
+    setUploadingDesktop(false)
+    if(j.url) setForm((s:any)=>({...s,desktopPhotoUrl:j.url}))
+  }
+
   async function submit(e:React.FormEvent){
     e.preventDefault()
     const payload={...form, harga:Number(form.harga), diskon:Number(form.diskon)}
@@ -32,10 +42,10 @@ export default function MenuSettingPage(){
     const method=editId?'PUT':'POST'
     const r=await fetch(url,{method,headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     if(!r.ok){ alert((await r.json()).error); return }
-    setForm({nama:'',kategori:'Makanan',harga:0,diskon:0,deskripsi:'',photoUrl:'',isRecommended:false,isNew:false,aktif:1}); setEditId(null); load()
+    setForm({nama:'',kategori:'Makanan',harga:0,diskon:0,deskripsi:'',photoUrl:'',desktopPhotoUrl:'',isRecommended:false,isNew:false,aktif:1}); setEditId(null); load()
   }
   async function del(id:number){ if(!confirm('Hapus?'))return; await fetch(`/api/menu/${id}`,{method:'DELETE'}); load() }
-  function edit(r:Row){ setEditId(r.id); setForm({nama:r.nama,kategori:r.kategori,harga:r.harga,diskon:r.diskon,deskripsi:r.deskripsi||'',photoUrl:r.photoUrl||'',isRecommended:!!r.isRecommended,isNew:!!r.isNew,aktif:r.aktif}); loadPhotos(r.id) }
+  function edit(r:Row){ setEditId(r.id); setForm({nama:r.nama,kategori:r.kategori,harga:r.harga,diskon:r.diskon,deskripsi:r.deskripsi||'',photoUrl:r.photoUrl||'',desktopPhotoUrl:r.desktopPhotoUrl||'',isRecommended:!!r.isRecommended,isNew:!!r.isNew,aktif:r.aktif}); loadPhotos(r.id) }
 
   async function loadPhotos(menuId:number){
     setPhotoMenuId(menuId)
@@ -72,11 +82,17 @@ export default function MenuSettingPage(){
         </select>
         <input type="number" className="border rounded-lg px-3 py-2 text-sm" placeholder="Harga (Rp)" value={form.harga} onChange={e=>setForm({...form,harga:e.target.value})} required />
         <input type="number" min={0} max={100} className="border rounded-lg px-3 py-2 text-sm" placeholder="Diskon %" value={form.diskon} onChange={e=>setForm({...form,diskon:e.target.value})} />
-        <input className="border rounded-lg px-3 py-2 text-sm sm:col-span-2" placeholder="Photo URL atau upload" value={form.photoUrl} onChange={e=>setForm({...form,photoUrl:e.target.value})} />
+        <input className="border rounded-lg px-3 py-2 text-sm sm:col-span-2" placeholder="Photo URL atau upload (mobile)" value={form.photoUrl} onChange={e=>setForm({...form,photoUrl:e.target.value})} />
         <div className="sm:col-span-2 flex gap-2 items-center">
           <input type="file" accept="image/*" onChange={e=>{if(e.target.files?.[0])uploadFile(e.target.files[0])}} />
           {uploading && <span className="text-xs">Uploading...</span>}
           {form.photoUrl && <img src={form.photoUrl} alt="" className="h-10 w-10 object-cover rounded" />}
+        </div>
+        <input className="border rounded-lg px-3 py-2 text-sm sm:col-span-2" placeholder="Photo URL desktop (kosongkan = ikut foto mobile)" value={form.desktopPhotoUrl} onChange={e=>setForm({...form,desktopPhotoUrl:e.target.value})} />
+        <div className="sm:col-span-2 flex gap-2 items-center">
+          <input type="file" accept="image/*" onChange={e=>{if(e.target.files?.[0])uploadDesktopFile(e.target.files[0])}} />
+          {uploadingDesktop && <span className="text-xs">Uploading...</span>}
+          {form.desktopPhotoUrl && <img src={form.desktopPhotoUrl} alt="" className="h-10 w-10 object-cover rounded" />}
         </div>
         <textarea className="border rounded-lg px-3 py-2 text-sm sm:col-span-2" placeholder="Deskripsi" value={form.deskripsi} onChange={e=>setForm({...form,deskripsi:e.target.value})} rows={2} />
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.isRecommended} onChange={e=>setForm({...form,isRecommended:e.target.checked})} /> Rekomendasi</label>
@@ -84,7 +100,7 @@ export default function MenuSettingPage(){
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={!!form.aktif} onChange={e=>setForm({...form,aktif:e.target.checked?1:0})} /> Aktif</label>
         <div className="sm:col-span-2 flex gap-2">
           <button className="bg-teal-600 text-white rounded-lg px-4 py-2 text-sm">{editId?'Update':'Tambah'}</button>
-          {editId && <button type="button" onClick={()=>{setEditId(null);setForm({nama:'',kategori:'Makanan',harga:0,diskon:0,deskripsi:'',photoUrl:'',isRecommended:false,isNew:false,aktif:1});setPhotos([]);setPhotoMenuId(null)}} className="border rounded-lg px-4 py-2 text-sm">Batal</button>}
+          {editId && <button type="button" onClick={()=>{setEditId(null);setForm({nama:'',kategori:'Makanan',harga:0,diskon:0,deskripsi:'',photoUrl:'',desktopPhotoUrl:'',isRecommended:false,isNew:false,aktif:1});setPhotos([]);setPhotoMenuId(null)}} className="border rounded-lg px-4 py-2 text-sm">Batal</button>}
         </div>
       </form>
 
@@ -117,7 +133,7 @@ export default function MenuSettingPage(){
           <tbody>
             {rows.map(r=>(
               <tr key={r.id} className="border-t">
-                <td className="px-3 py-2 flex gap-2 items-center">{r.photoUrl && <img src={r.photoUrl} className="h-8 w-8 object-cover rounded" alt="" />}<span>{r.nama}</span></td>
+                <td className="px-3 py-2 flex gap-2 items-center">{r.photoUrl && <img src={r.photoUrl} className="h-8 w-8 object-cover rounded" alt="" />}<span>{r.nama}</span>{r.desktopPhotoUrl && <span title="Punya foto desktop" className="text-[10px] font-bold bg-teal-100 text-teal-700 rounded px-1.5 py-0.5">D</span>}</td>
                 <td className="px-2 text-xs">{r.kategori}</td>
                 <td className="px-2">Rp {r.harga.toLocaleString('id-ID')}</td>
                 <td className="px-2">{r.diskon}%</td>

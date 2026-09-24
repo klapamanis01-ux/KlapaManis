@@ -4,7 +4,15 @@ import { gallery } from '@/db/schema'
 import { eq, asc } from 'drizzle-orm'
 import GalleryClient from '@/components/GalleryClient'
 import PageTransition from '@/components/PageTransition'
+import GalleryLight from '@/components/desktop/GalleryLight'
+import { Playfair_Display, Inter } from 'next/font/google'
+import { isDesktopRequest } from '@/lib/device'
+import { getAllMenus } from '@/lib/promoRepo'
+import { toSearchItems, bgCss, getUiLabels, getPageBg, asImageUrl } from '@/lib/siteInfo'
 export const dynamic = 'force-dynamic'
+
+const serifFont = Playfair_Display({ weight: ['700', '800'], subsets: ['latin'] })
+const sansFont = Inter({ weight: ['400', '600', '700', '800'], subsets: ['latin'] })
 
 export default async function GalleryPage(){
   const settings = await getLandingSettings().catch(()=> ({} as Record<string,string>))
@@ -22,9 +30,36 @@ export default async function GalleryPage(){
   const db = getDb()
   const items = await db.select().from(gallery).where(eq(gallery.aktif, 1)).orderBy(asc(gallery.urutan)).catch(()=>[])
 
+  if (isDesktopRequest()) {
+    const allMenus = await getAllMenus().catch(() => [])
+    const wa = settings['promo_landing.whatsapp'] || ''
+    return (
+      <PageTransition>
+      <GalleryLight
+        brandTitle={settings['site.title'] || 'Klapa Manis'}
+        brandSub={settings['desktop.home_brand_sub'] || 'RUMAH MAKAN'}
+        brandTagline={settings['desktop.home_tagline'] || 'Rasa Nusantara, Hangatnya Kebersamaan.'}
+        bg={bgCss(getPageBg(settings, 'gallery').left, '#FAF6EE')}
+        eyebrow={settings['desktop.eyebrow_gallery'] || 'GALERI KAMI'}
+        title1={settings['desktop.title1_gallery'] || 'Momen Istimewa'}
+        title2={settings['desktop.title2_gallery'] || 'di Klapa Manis'}
+        titleFallback="Gallery"
+        description={settings['desktop.desc_gallery'] || ''}
+        items={(items as any[]).map((it: any) => ({ id: it.id, imageUrl: it.imageUrl, title: it.title, deskripsi: it.deskripsi }))}
+        location={settings['contact_us.address'] || 'Gronggong, Cirebon'}
+        searchItems={toSearchItems(allMenus as any)}
+        reservasiHref={wa ? `https://wa.me/${wa.replace(/[^0-9]/g, '')}` : ''}
+        ui={getUiLabels(settings)}
+        fonts={{ serif: serifFont.className, sans: sansFont.className }}
+        coverPhotoProp={asImageUrl(getPageBg(settings, 'gallery').right) || undefined}
+      />
+      </PageTransition>
+    )
+  }
+
   return (
     <PageTransition>
-    <div className="w-full min-h-screen overflow-y-auto relative">
+    <div data-device="mobile" className="w-full min-h-screen overflow-y-auto relative">
       {/* Hero image - top 50% */}
       <section className="absolute top-0 left-0 right-0 h-[50svh] overflow-hidden bg-stone-900">
         {heroImage && <img src={heroImage} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />}
