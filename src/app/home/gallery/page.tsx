@@ -8,7 +8,7 @@ import GalleryLight from '@/components/desktop/GalleryLight'
 import { Playfair_Display, Inter } from 'next/font/google'
 import { isDesktopRequest } from '@/lib/device'
 import { getAllMenus } from '@/lib/promoRepo'
-import { toSearchItems, bgCss, getUiLabels, getPageBg, asImageUrl } from '@/lib/siteInfo'
+import { toSearchItems, bgCss, getUiLabels, getPageBg, asImageUrl, getLogoUrl } from '@/lib/siteInfo'
 export const dynamic = 'force-dynamic'
 
 const serifFont = Playfair_Display({ weight: ['700', '800'], subsets: ['latin'] })
@@ -38,6 +38,7 @@ export default async function GalleryPage(){
       <GalleryLight
         brandTitle={settings['site.title'] || 'Klapa Manis'}
         brandSub={settings['desktop.home_brand_sub'] || 'RUMAH MAKAN'}
+        logoUrl={getLogoUrl(settings)}
         brandTagline={settings['desktop.home_tagline'] || 'Rasa Nusantara, Hangatnya Kebersamaan.'}
         bg={bgCss(getPageBg(settings, 'gallery').left, '#FAF6EE')}
         eyebrow={settings['desktop.eyebrow_gallery'] || 'GALERI KAMI'}

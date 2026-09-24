@@ -101,6 +101,11 @@ export function toSearchItems(menus: { id: number; nama: string; harga: number; 
     .map((m) => ({ id: m.id, nama: m.nama, harga: m.harga, diskon: m.diskon, kategori: m.kategori, photoUrl: m.photoUrl, desktopPhotoUrl: m.desktopPhotoUrl || null }))
 }
 
+// Logo header desktop: setting khusus, fallback favicon situs.
+export function getLogoUrl(s: Record<string, string>): string {
+  return s['desktop.logo_url'] || s['site.favicon_url'] || ''
+}
+
 // Background per halaman desktop: kiri (fallback bg_light), kanan gambar (fallback '' = otomatis).
 export function getPageBg(s: Record<string, string>, page: string): { left: string; right: string } {
   const fallback = s['desktop.bg_light'] || '#FAF6EE'

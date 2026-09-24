@@ -8,7 +8,7 @@ import CategoryShowcase from '@/components/desktop/CategoryShowcase'
 import { Great_Vibes, Playfair_Display, Inter } from 'next/font/google'
 import { isDesktopRequest } from '@/lib/device'
 import { getAllMenus } from '@/lib/promoRepo'
-import { toSearchItems, bgCss, getUiLabels, getPageBg, asImageUrl } from '@/lib/siteInfo'
+import { toSearchItems, bgCss, getUiLabels, getPageBg, asImageUrl, getLogoUrl } from '@/lib/siteInfo'
 export const dynamic = 'force-dynamic'
 
 const scriptFont = Great_Vibes({ weight: '400', subsets: ['latin'] })
@@ -91,6 +91,7 @@ export default async function KategoriPage({ params }: { params: { slug: string 
         ui={getUiLabels(settings)}
         fonts={{ serif: serifFont.className, sans: sansFont.className }}
         coverPhotoProp={asImageUrl(getPageBg(settings, slug).right) || undefined}
+        logoUrl={getLogoUrl(settings)}
       />
       </PageTransition>
     )

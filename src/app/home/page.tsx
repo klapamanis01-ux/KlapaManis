@@ -4,7 +4,7 @@ import PromoHome40 from '@/components/PromoHome40'
 import PageTransition from '@/components/PageTransition'
 import HomeWelcome from '@/components/desktop/HomeWelcome'
 import { isDesktopRequest } from '@/lib/device'
-import { toSearchItems, bgCss, getUiLabels, getPageBg } from '@/lib/siteInfo'
+import { toSearchItems, bgCss, getUiLabels, getPageBg, getLogoUrl } from '@/lib/siteInfo'
 export const dynamic = 'force-dynamic'
 
 const scriptFont = Great_Vibes({ weight: '400', subsets: ['latin'] })
@@ -49,6 +49,7 @@ export default async function PromoPage() {
         bg={bgCss(getPageBg(settings, 'home').left, '#FAF6EE')}
         ui={getUiLabels(settings)}
         fonts={{ serif: serifFont.className, sans: sansFont.className }}
+        logoUrl={getLogoUrl(settings)}
       />
       </PageTransition>
     )

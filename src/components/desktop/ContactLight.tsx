@@ -6,7 +6,7 @@ import type { SearchItem } from './OneScreenShell'
 import type { UiLabels, DesktopFonts } from '@/lib/siteInfo'
 
 // Halaman contact desktop terang: tombol kontak + info kiri, peta diagonal kanan.
-export default function ContactLight({ brandTitle, brandSub, brandTagline, bg, eyebrow, title1, title2, titleFallback, contact, mapsUrl, address, hours, location, searchItems, reservasiHref, ui, fonts }: {
+export default function ContactLight({ brandTitle, brandSub, brandTagline, bg, eyebrow, title1, title2, titleFallback, contact, mapsUrl, address, hours, location, searchItems, reservasiHref, ui, fonts, logoUrl }: {
   brandTitle: string
   brandSub: string
   brandTagline: string
@@ -24,12 +24,13 @@ export default function ContactLight({ brandTitle, brandSub, brandTagline, bg, e
   reservasiHref: string
   ui: UiLabels
   fonts: DesktopFonts
+  logoUrl: string
 }) {
   const mapSrc = mapsUrl || (address ? `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed` : '')
   return (
     <div data-device="desktop" className={`h-[100dvh] w-full overflow-hidden relative flex ${fonts.sans}`} style={{ background: bg }}>
       <div className="w-[66%] h-full flex flex-col pl-[5%] pr-4 pt-5 pb-5">
-        <LightHeader brandTitle={brandTitle} brandSub={brandSub} active="contact" searchItems={searchItems} reservasiHref={reservasiHref} ui={ui} fonts={fonts} actions={false} />
+        <LightHeader brandTitle={brandTitle} brandSub={brandSub} active="contact" searchItems={searchItems} reservasiHref={reservasiHref} ui={ui} fonts={fonts} logoUrl={logoUrl} actions={false} />
 
         <div className="flex-1 min-h-0 flex flex-col pt-12 overflow-y-auto">
           <div className="text-[12px] font-bold tracking-[0.35em] shrink-0" style={{ color: '#B98A2F' }}>{eyebrow}</div>

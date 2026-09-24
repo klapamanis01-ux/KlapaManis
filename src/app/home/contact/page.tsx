@@ -4,7 +4,7 @@ import PageTransition from '@/components/PageTransition'
 import ContactLight from '@/components/desktop/ContactLight'
 import { Playfair_Display, Inter } from 'next/font/google'
 import { isDesktopRequest } from '@/lib/device'
-import { toSearchItems, bgCss, getUiLabels, getPageBg } from '@/lib/siteInfo'
+import { toSearchItems, bgCss, getUiLabels, getPageBg, getLogoUrl } from '@/lib/siteInfo'
 export const dynamic = 'force-dynamic'
 
 const serifFont = Playfair_Display({ weight: ['700', '800'], subsets: ['latin'] })
@@ -50,6 +50,7 @@ export default async function ContactPage(){
         reservasiHref={whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}` : ''}
         ui={getUiLabels(settings)}
         fonts={{ serif: serifFont.className, sans: sansFont.className }}
+        logoUrl={getLogoUrl(settings)}
       />
       </PageTransition>
     )

@@ -42,7 +42,7 @@ export function SearchReservasiButtons({ searchItems, reservasiHref, ui }: {
 }
 
 // Header terang bersama: logo+sub, nav tengah, aksi kanan opsional.
-export default function LightHeader({ brandTitle, brandSub, active, searchItems, reservasiHref, ui, fonts, actions = true }: {
+export default function LightHeader({ brandTitle, brandSub, active, searchItems, reservasiHref, ui, fonts, logoUrl, actions = true }: {
   brandTitle: string
   brandSub: string
   active: DesktopTab
@@ -50,16 +50,20 @@ export default function LightHeader({ brandTitle, brandSub, active, searchItems,
   reservasiHref: string
   ui: UiLabels
   fonts: DesktopFonts
+  logoUrl: string
   actions?: boolean
 }) {
   const router = useRouter()
   return (
     <header className="flex items-center shrink-0">
-      <span className="leading-none">
-        <button onClick={() => router.push('/home')} className={`${fonts.serif} text-[26px] font-bold text-[#1E3124] leading-none block`}>
-          {brandTitle || 'Klapa Manis'}
-        </button>
-        {brandSub && <span className="block text-[10px] font-bold tracking-[0.3em] mt-1" style={{ color: '#B98A2F' }}>{brandSub}</span>}
+      <span className="flex items-center gap-2.5 leading-none">
+        {logoUrl && <img src={logoUrl} alt="Logo" className="w-10 h-10 rounded-full object-cover shadow" loading="lazy" />}
+        <span>
+          <button onClick={() => router.push('/home')} className={`${fonts.serif} text-[26px] font-bold text-[#1E3124] leading-none block text-left`}>
+            {brandTitle || 'Klapa Manis'}
+          </button>
+          {brandSub && <span className="block text-[10px] font-bold tracking-[0.3em] mt-1" style={{ color: '#B98A2F' }}>{brandSub}</span>}
+        </span>
       </span>
       <nav className="flex-1 flex items-center justify-center gap-6">
         {TABS.map((t) => (

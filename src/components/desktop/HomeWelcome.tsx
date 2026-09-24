@@ -7,7 +7,7 @@ import type { SearchItem } from './OneScreenShell'
 import type { UiLabels, DesktopFonts } from '@/lib/siteInfo'
 
 // Home desktop ala referensi: krem editorial + foto diagonal, Reservasi, video, signature.
-export default function HomeWelcome({ title, brandSub, tagline, description, location, signature, note, avatars, photo, videoUrl, reservasiHref, searchItems, scriptFont, bg, ui, fonts }: {
+export default function HomeWelcome({ title, brandSub, tagline, description, location, signature, note, avatars, photo, videoUrl, reservasiHref, searchItems, scriptFont, bg, ui, fonts, logoUrl }: {
   title: string
   brandSub: string
   tagline: string
@@ -24,6 +24,7 @@ export default function HomeWelcome({ title, brandSub, tagline, description, loc
   bg: string
   ui: UiLabels
   fonts: DesktopFonts
+  logoUrl: string
 }) {
   const router = useRouter()
   const [searchOpen, setSearchOpen] = useState(false)
@@ -34,9 +35,12 @@ export default function HomeWelcome({ title, brandSub, tagline, description, loc
       {/* kiri: konten */}
       <div className="w-[55%] h-full flex flex-col pl-10 pr-4 pt-5 pb-6">
         <header className="flex items-center gap-8">
-          <div className="leading-none">
-            <div className={`${fonts.serif} text-[22px] font-bold text-[#1E3124]`}>{title || 'Klapa Manis'}</div>
-            {brandSub && <div className="text-[10px] font-bold tracking-[0.3em] mt-1" style={{ color: '#B98A2F' }}>{brandSub}</div>}
+          <div className="flex items-center gap-2.5 leading-none">
+            {logoUrl && <img src={logoUrl} alt="Logo" className="w-10 h-10 rounded-full object-cover shadow" loading="lazy" />}
+            <div>
+              <div className={`${fonts.serif} text-[22px] font-bold text-[#1E3124]`}>{title || 'Klapa Manis'}</div>
+              {brandSub && <div className="text-[10px] font-bold tracking-[0.3em] mt-1" style={{ color: '#B98A2F' }}>{brandSub}</div>}
+            </div>
           </div>
           <nav className="flex items-center gap-5">
             {TABS.map((t) => (

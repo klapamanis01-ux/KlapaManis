@@ -10,6 +10,7 @@ const KEYS = [
   'desktop.home_video_url',
   'desktop.home_image',
   'desktop.bg_home_left',
+  'desktop.logo_url',
 ]
 
 function ImageSetting({ settingsKey, label, hint, get, set }: {
@@ -58,6 +59,7 @@ export default function DesktopHomeSetting() {
         <Field label="Tulisan tangan" settingsKey="desktop.home_signature" placeholder="Lebih dari Sekadar Makan" get={get} set={set} />
         <Field label="URL video (kosongkan = tombol disembunyikan)" settingsKey="desktop.home_video_url" placeholder="https://...mp4" get={get} set={set} />
         <ImageSetting settingsKey="desktop.home_image" label="Kanan — Foto makanan" hint="Foto makanan di panel diagonal kanan. Kosongkan = pakai foto gallery/hero." get={get} set={set} />
+        <ImageSetting settingsKey="desktop.logo_url" label="Logo header (kosongkan = ikut favicon)" hint="Logo bulat di kiri tulisan Klapa Manis, semua halaman desktop." get={get} set={set} />
         <ImageSetting settingsKey="desktop.bg_home_left" label="Kiri — Background (warna/gradasi/gambar)" hint="Background panel kiri home. Isi warna (#FAF6EE), gradasi, atau upload gambar. Kosongkan = ikut default." get={get} set={set} />
       </>)}
     </DesktopSettingPage>

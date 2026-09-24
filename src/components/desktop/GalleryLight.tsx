@@ -9,7 +9,7 @@ import type { UiLabels, DesktopFonts } from '@/lib/siteInfo'
 export type GalleryPhoto = { id: number; imageUrl: string; title: string | null; deskripsi: string | null }
 
 // Halaman gallery desktop terang: grid foto + panel diagonal foto unggulan + lightbox.
-export default function GalleryLight({ brandTitle, brandSub, brandTagline, bg, eyebrow, title1, title2, titleFallback, description, items, location, searchItems, reservasiHref, ui, fonts, coverPhotoProp }: {
+export default function GalleryLight({ brandTitle, brandSub, brandTagline, bg, eyebrow, title1, title2, titleFallback, description, items, location, searchItems, reservasiHref, ui, fonts, coverPhotoProp, logoUrl }: {
   brandTitle: string
   brandSub: string
   brandTagline: string
@@ -26,6 +26,7 @@ export default function GalleryLight({ brandTitle, brandSub, brandTagline, bg, e
   ui: UiLabels
   fonts: DesktopFonts
   coverPhotoProp?: string
+  logoUrl: string
 }) {
   const [zoom, setZoom] = useState<GalleryPhoto | null>(null)
 
@@ -39,7 +40,7 @@ export default function GalleryLight({ brandTitle, brandSub, brandTagline, bg, e
   return (
     <div data-device="desktop" className={`h-[100dvh] w-full overflow-hidden relative flex ${fonts.sans}`} style={{ background: bg }}>
       <div className="w-[66%] h-full flex flex-col pl-[5%] pr-4 pt-5 pb-5">
-        <LightHeader brandTitle={brandTitle} brandSub={brandSub} active="gallery" searchItems={searchItems} reservasiHref={reservasiHref} ui={ui} fonts={fonts} actions={false} />
+        <LightHeader brandTitle={brandTitle} brandSub={brandSub} active="gallery" searchItems={searchItems} reservasiHref={reservasiHref} ui={ui} fonts={fonts} logoUrl={logoUrl} actions={false} />
 
         <div className="flex-1 min-h-0 flex flex-col pt-12">
           <div className="text-[12px] font-bold tracking-[0.35em] shrink-0" style={{ color: '#B98A2F' }}>{eyebrow}</div>

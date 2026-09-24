@@ -15,7 +15,7 @@ function finalPrice(d: Dish): number | null {
 }
 
 // Halaman kategori desktop ala referensi: terang, grid kartu, foto diagonal.
-export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, active, bg, eyebrow, title1, title2, titleFallback, description, items, location, signature, scriptFont, fonts, searchItems, reservasiHref, ui, coverPhotoProp }: {
+export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, active, bg, eyebrow, title1, title2, titleFallback, description, items, location, signature, scriptFont, fonts, searchItems, reservasiHref, ui, coverPhotoProp, logoUrl }: {
   brandTitle: string
   brandSub: string
   brandTagline: string
@@ -35,6 +35,7 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
   reservasiHref: string
   ui: UiLabels
   coverPhotoProp?: string
+  logoUrl: string
 }) {
   const router = useRouter()
   const [searchOpen, setSearchOpen] = useState(false)
@@ -55,11 +56,14 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
       {/* kiri */}
       <div className="w-[66%] h-full flex flex-col pl-[5%] pr-4 pt-5 pb-5">
         <header className="flex items-center shrink-0">
-          <span className="leading-none">
-            <button onClick={() => router.push('/home')} className={`${fonts.serif} text-[26px] font-bold text-[#1E3124] leading-none block`}>
-              {brandTitle || 'Klapa Manis'}
-            </button>
-            {brandSub && <span className="block text-[10px] font-bold tracking-[0.3em] mt-1" style={{ color: '#B98A2F' }}>{brandSub}</span>}
+          <span className="flex items-center gap-2.5 leading-none">
+            {logoUrl && <img src={logoUrl} alt="Logo" className="w-10 h-10 rounded-full object-cover shadow" loading="lazy" />}
+            <span>
+              <button onClick={() => router.push('/home')} className={`${fonts.serif} text-[26px] font-bold text-[#1E3124] leading-none block text-left`}>
+                {brandTitle || 'Klapa Manis'}
+              </button>
+              {brandSub && <span className="block text-[10px] font-bold tracking-[0.3em] mt-1" style={{ color: '#B98A2F' }}>{brandSub}</span>}
+            </span>
           </span>
           <nav className="flex-1 flex items-center justify-center gap-6">
             {TABS.map((t) => (
