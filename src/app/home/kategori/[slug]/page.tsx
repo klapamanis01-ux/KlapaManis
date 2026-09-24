@@ -63,7 +63,7 @@ export default async function KategoriPage({ params }: { params: { slug: string 
 
   if (isDesktopRequest()) {
     const dishes = itemsWithPhotos.map((it: any) => ({
-      id: it.id, nama: it.nama, deskripsi: it.deskripsi, harga: it.harga,
+      id: it.id, nama: it.nama, deskripsi: null, harga: it.harga,
       diskon: it.diskon, photoUrl: it.photoUrl, desktopPhotoUrl: it.desktopPhotoUrl || null, photos: it.photos || [],
     }))
     const allMenus = await getAllMenus().catch(() => [])

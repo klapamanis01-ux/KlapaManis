@@ -103,7 +103,6 @@ export default function CategoryShowcase({ brandTitle, brandSub, brandTagline, a
                     )}
                     <div className="px-2 pt-1 pb-1.5">
                       <div className="text-[12px] font-extrabold leading-tight truncate" style={{ color: '#1A2B1F' }}>{it.nama}</div>
-                      {it.deskripsi && <div className="line-clamp-2 leading-snug min-h-[24px]" style={{ fontSize: 10, color: '#6E6A5E' }}>{it.deskripsi}</div>}
                     </div>
                   </div>
                 ))}
